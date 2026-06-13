@@ -1,0 +1,23 @@
+{
+  "name": "opencode-moanster",
+  "version": "1.0.0",
+  "description": "Moanster — configurable, context-aware moans for every tool call.",
+  "license": "MIT",
+  "author": "mozarchbtw <mozarchbtw@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozarchbtw/opencode-moanster.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mozarchbtw/opencode-moanster/issues"
+  },
+  "homepage": "https://github.com/mozarchbtw/opencode-moanster#readme",
+  "keywords": ["opencode", "plugin", "moan", "audio", "sound", "fun"],
+  "files": ["index.ts", "sounds/*.mp3", "README.md", "LICENSE"],
+  "exports": {
+    "./server": "./index.ts"
+  },
+  "engines": {
+    "opencode": "*"
+  }
+}

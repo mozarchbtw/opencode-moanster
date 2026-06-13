@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // To use with defaults (just moans, no config needed):
+  // "plugin": ["."]
+
+  // To customize everything:
+  "plugin": [
+    [
+      ".",
+      {
+        // ─── Sound files (relative to plugin dir, or absolute) ───
+        "sounds": {
+          //   "mini":     "sounds/custom_mini.mp3",  // default names auto-detected from sounds/
+          //   "normal":   "sounds/normal_moan.mp3",
+          //   "hmmm":     "/absolute/path/to/sound.mp3",
+          //   "near_cum": "sounds/near_cum.mp3"
+        },
+
+        // ─── Tool → intensity mapping ───
+        // Set to false to disable moaning for a specific tool
+        "toolIntensity": {
+          //   "read":   "mini",    // light tools
+          //   "glob":   "mini",
+          //   "grep":   "hmmm",    // search tools
+          //   "write":  "normal",  // heavy tools
+          //   "bash":   "normal",
+          //   "task":   false      // completely silent for subtasks
+        },
+
+        // ─── Custom quips per tool ───
+        "quips": {
+          //   "read": ["oh read me~", "gentle~"]
+        },
+
+        // ─── Default quips (for unknown tools) ───
+        "defaultQuips": ["oh~", "yes~", "mmm~"],
+
+        // ─── Feature toggles (all true by default) ───
+        "features": {
+          "escalation": true,       // intensify as tool count grows
+          "rapidFire": true,        // intensify on rapid successive calls
+          "climax": true,           // 💦 on session idle
+          "permissionTease": true,  // moan on permission requests
+          "antiClimax": true,       // deflated moan on errors
+          "consoleMessages": true   // print quips to console
+        },
+
+        // ─── Numeric tuning ───
+        "thresholds": {
+          "escalation": [4, 8, 12],    // tool counts for tier 1, 2, 3
+          "rapidFireWindow": 200,      // ms window for rapid-fire detection
+          "playInterval": 80           // min ms between audio plays
+        },
+
+        // ─── Audio player ───
+        "player": "mpv",             // "mpv" or "ffplay" (auto-detected if omitted)
+        "volume": 50                 // 0-100 (mpv only)
+      }
+    ]
+  ]
+}
