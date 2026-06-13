@@ -10,11 +10,31 @@ Context-aware moan sounds for every tool call. Escalation, climax, and full conf
 
 ## Install
 
+### Per project (current project only)
+
 ```bash
 opencode plugin opencode-moanster
 ```
 
-That's it. Restart opencode and every tool call will moan.
+This adds the plugin to your project's `opencode.json`.
+
+### Global (all projects)
+
+```bash
+opencode plugin opencode-moanster --global
+```
+
+This adds the plugin to your global config at `~/.config/opencode/opencode.json`.
+
+### Manual
+
+Add to your `opencode.json`:
+
+```jsonc
+{ "plugin": ["opencode-moanster"] }
+```
+
+Restart opencode and every tool call will moan.
 
 ## How It Works
 
