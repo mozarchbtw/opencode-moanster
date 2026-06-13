@@ -14,64 +14,54 @@ Context-aware moan sounds for every tool call. Escalation, climax, and full conf
 opencode plugin opencode-moanster
 ```
 
-Or add it to `opencode.jsonc`:
-
-```jsonc
-{ "plugin": ["opencode-moanster"] }
-```
-
-## Quick Start (local dev)
-
-Clone the repo and reference it by path:
-
-```jsonc
-{ "plugin": ["./path/to/opencode-moanster"] }
-```
+That's it. Restart opencode and every tool call will moan.
 
 ## How It Works
 
-Every tool call fires the `tool.execute.before` hook — the plugin plays a random MP3 based on the tool type and how many tools have been called so far.
+Every tool call plays a sound based on the tool type. Sounds intensify as you use more tools.
 
-| Tool               | Base Sound | Vibe              |
-| ------------------ | ---------- | ----------------- |
-| `read`, `glob`     | mini       | Light, gentle     |
-| `grep`, `webfetch` | hmmm       | Curious, searching|
-| `write`, `edit`    | normal     | Standard moan     |
-| `bash`             | normal     | Command energy    |
-| `task`             | normal     | Deep work         |
+| Tool               | Sound    | Vibe               |
+| ------------------ | -------- | ------------------ |
+| `read`, `glob`     | mini     | Light, gentle      |
+| `grep`, `webfetch` | hmmm     | Curious, searching |
+| `write`, `edit`    | normal   | Standard moan      |
+| `bash`             | normal   | Command energy     |
+| `task`             | normal   | Deep work          |
 
-### Escalation
+**Escalation** — sounds get more intense as tool count grows (4, 8, 12+ tools).
 
-As tool count increases, sounds intensify. Default tiers:
+**Rapid fire** — parallel tool calls within 200ms increase intensity (2 = +1 tier, 3+ = max).
 
-| Tools Called | Intensity Boost |
-| ------------ | --------------- |
-| 0-3          | None            |
-| 4-7          | +1 tier         |
-| 8-11         | +2 tiers        |
-| 12+          | Maximum         |
+**Special events:**
 
-### Special Events
+| Event               | Sound    | Console                      |
+| ------------------- | -------- | ---------------------------- |
+| Session done        | near_cum | 💦 nghhh~ nghh~ Aaaah~ 💦    |
+| Permission asked    | near_cum | permission to finish? 👉👈   |
+| Error / step failed | mini     | ...oh. that killed the mood. |
 
-| Event                  | Sound    | Console                         |
-| ---------------------- | -------- | ------------------------------- |
-| Session idle (done)    | near_cum | 💦 nghhh~ nghh~ Aaaah~ 💦       |
-| Permission asked       | near_cum | permission to finish? 👉👈      |
-| Error / step failed    | mini     | ...oh. that killed the mood.    |
+<details>
+<summary><strong>Default Config</strong> (no config needed — this is what you get out of the box)</summary>
 
-### Rapid Fire
+```jsonc
+{
+  "plugin": ["opencode-moanster"]
+}
+```
 
-Parallel tool calls within 200ms increase intensity rapidly — 2 calls = +1 tier, 3+ calls = max.
+All features are enabled by default. No configuration required.
 
-## Configuration
+</details>
 
-Everything is optional. All features are enabled by default.
+<details>
+<summary><strong>Full Config Reference</strong> (all options, all defaults)</summary>
 
 ```jsonc
 {
   "plugin": [
     ["opencode-moanster", {
       // ─── Sound file overrides ───
+      // Paths relative to plugin dir, or absolute
       "sounds": {
         "mini":     "sounds/custom_mini.mp3",
         "normal":   "/absolute/path/to/sound.mp3",
@@ -79,14 +69,15 @@ Everything is optional. All features are enabled by default.
         "near_cum": "sounds/climax.mp3"
       },
 
-      // ─── Per-tool intensity (false to mute a tool) ───
+      // ─── Per-tool intensity ───
+      // Options: "mini" | "normal" | "hmmm" | "near_cum" | false
       "toolIntensity": {
         "read":   "mini",
         "bash":   "near_cum",
         "grep":   false
       },
 
-      // ─── Custom console quips ───
+      // ─── Custom quips ───
       "quips": {
         "read": ["oh you're reading me~", "gentle...", "right there~"],
         "bash": ["yes execute~", "tell me what to do~"]
@@ -95,12 +86,12 @@ Everything is optional. All features are enabled by default.
 
       // ─── Feature toggles ───
       "features": {
-        "escalation":       true,   // intensify as tool count grows
-        "rapidFire":        true,   // intensify on rapid successive calls
-        "climax":           true,   // 💦 on session idle
-        "permissionTease":  true,   // moan on permission requests
-        "antiClimax":       true,   // deflated moan on errors
-        "consoleMessages":  true    // print quips to console
+        "escalation":       true,
+        "rapidFire":        true,
+        "climax":           true,
+        "permissionTease":  true,
+        "antiClimax":       true,
+        "consoleMessages":  true
       },
 
       // ─── Numeric tuning ───
@@ -118,32 +109,27 @@ Everything is optional. All features are enabled by default.
 }
 ```
 
-## Sound Files
+</details>
 
-The plugin auto-discovers MP3 files from its `sounds/` directory. Files named `mini_moan.mp3`, `normal_moan.mp3`, `hmmm_moan.mp3`, and `near_cum.mp3` are mapped automatically to their respective intensity levels.
+<details>
+<summary><strong>Local Development</strong> (clone & run from source)</summary>
 
-Drop in your own files with matching names, or override paths via the `sounds` config.
-
-## File Structure
-
+```bash
+git clone https://github.com/mozarchbtw/opencode-moanster.git
 ```
-opencode-moanster/
-├── index.ts            # Plugin source
-├── package.json        # npm package manifest
-├── README.md           # This file
-├── LICENSE             # MIT
-├── opencode.jsonc      # Example config (for local testing)
-└── sounds/
-    ├── hmmm_moan.mp3
-    ├── mini_moan.mp3
-    ├── near_cum.mp3
-    └── normal_moan.mp3
+
+Then reference by path in `opencode.jsonc`:
+
+```jsonc
+{ "plugin": ["./opencode-moanster"] }
 ```
+
+</details>
 
 ## Requirements
 
 - [mpv](https://mpv.io) or [ffplay](https://ffmpeg.org) for audio playback
-- Linux, macOS (Windows support via WSL with mpv)
+- Linux, macOS (Windows via WSL with mpv)
 
 ## License
 
